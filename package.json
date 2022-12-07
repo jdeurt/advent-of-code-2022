@@ -1,0 +1,9 @@
+{
+  "name": "advent-of-code-2022",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:jdeurt/advent-of-code-2022.git",
+  "author": "Juan de Urtubey <jdeurt@gmail.com>",
+  "license": "MIT",
+  "type": "module"
+}
