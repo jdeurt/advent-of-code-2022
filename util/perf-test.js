@@ -1,4 +1,4 @@
-export const perfTest = (name, fn, knownSolution, iterations = 10) => {
+export const perfTest = (name, fn, knownSolution, iterations = 100) => {
     const result = fn();
 
     const times = [];
