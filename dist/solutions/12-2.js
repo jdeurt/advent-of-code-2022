@@ -1,4 +1,3 @@
-import { chain } from "../util/chain.js";
 import { Matrix } from "../util/matrix.js";
 import { Queue } from "../util/queue.js";
 var Position;
@@ -15,10 +14,18 @@ const getAdjecent = ([row, col]) => [
     [row, col - 1],
     [row, col + 1],
 ];
-const isValidMove = chain({
-    [Position.START]: Position.LOWEST,
-    [Position.END]: Position.HIGHEST,
-}).then((remap) => (from, to) => from && to && remap[to] <= remap[from] + 1).value;
+const isValidMove = (from, to) => {
+    if (from === undefined || to === undefined) {
+        return false;
+    }
+    const remap = {
+        [Position.START]: Position.LOWEST,
+        [Position.END]: Position.HIGHEST,
+    };
+    from = remap[from] ?? from;
+    to = remap[to] ?? to;
+    return to <= from + 1;
+};
 export const build = (input) => {
     const heightsCharMatrix = Matrix.from(input);
     return () => {
@@ -37,11 +44,7 @@ export const build = (input) => {
                     break;
                 }
                 for (const move of getAdjecent(currPos)) {
-                    if (move[0] >= 0 &&
-                        move[0] < heights.size[0] &&
-                        move[1] >= 0 &&
-                        move[1] < heights.size[1] &&
-                        isValidMove(currVal, heights.at(move)) &&
+                    if (isValidMove(currVal, heights.at(move)) &&
                         visited[String(move)] !== true) {
                         visited[String(move)] = true;
                         queue.enqueue([...move, depth + 1]);

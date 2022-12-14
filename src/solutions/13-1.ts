@@ -2,100 +2,30 @@ import type { In } from "../types/in.js";
 import type { Couple } from "../types/couple.js";
 import { SolutionBuilder } from "../types/solution.js";
 import { makeRemap } from "../util/make-remap.js";
-import { fastParseInt } from "../util/fast-parse-int.js";
 import { assert } from "../util/assert.js";
 
 interface Packet extends Array<unknown> {
     readonly [n: number]: number | Packet;
 }
 
-const numbers: Record<string, true> = {
-    "0": true,
-    "1": true,
-    "2": true,
-    "3": true,
-    "4": true,
-    "5": true,
-    "6": true,
-    "7": true,
-    "8": true,
-    "9": true,
-};
-
 // Parsing
-const parseNumber = (input: string, start: number): [number, number] => {
-    let numStr = "";
-
-    let i = start - 1;
-    while (i++ || true) {
-        const char = input[i];
-
-        if (!numbers[char]) break;
-
-        numStr += char;
-    }
-
-    return [fastParseInt(numStr), i];
-};
-
-const parseList = (input: string, start: number): [Packet, number] => {
-    const list: Packet = [];
-
-    let i = start - 1;
-    while (i++ || true) {
-        const char = input[i];
-
-        if (char === "]") break;
-
-        if (numbers[char]) {
-            const [num, newI] = parseNumber(input, i);
-
-            i = newI - 1; // Will be incremented at start of loop
-
-            list.push(num);
-
-            continue;
-        }
-
-        if (char === "[") {
-            const [subList, newI] = parseList(input, i + 1);
-
-            i = newI;
-
-            list.push(subList);
-        }
-    }
-
-    return [list, i];
-};
-
+// JSON.parse is apparently pretty fast
 const parseInput = (input: string): Couple<Packet>[] => {
-    const pairs: [Packet, Packet?][] = [];
+    const lines = input.split("\n");
 
-    let isPairOpen = false;
+    const pairs: Couple<Packet>[] = [];
+    let currPair: [Packet?, Packet?] = [];
 
-    let i = -1;
-    while (i++ || true) {
-        const char = input[i];
-
-        if (char === undefined) break;
-
-        if (char === "[") {
-            const [list, newI] = parseList(input, i + 1);
-
-            i = newI;
-
-            if (!isPairOpen) {
-                pairs.push([list]);
-            } else {
-                pairs.at(-1)![1] = list;
-            }
-
-            isPairOpen = !isPairOpen;
-        }
+    for (const line of lines) {
+        if (line === "") {
+            pairs.push(currPair as any);
+            currPair = [];
+        } else currPair.push(JSON.parse(line));
     }
 
-    return pairs as any;
+    pairs.push(currPair as any);
+
+    return pairs;
 };
 
 // Order checking

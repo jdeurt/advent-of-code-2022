@@ -20,13 +20,21 @@ const getAdjecent = ([row, col]: [number, number]) =>
         [row, col + 1],
     ] as const;
 
-const isValidMove = chain({
-    [Position.START]: Position.LOWEST,
-    [Position.END]: Position.HIGHEST,
-}).then(
-    (remap) => (from: number | undefined, to: number | undefined) =>
-        from && to && remap[to] <= remap[from] + 1
-).value;
+const isValidMove = (from: number | undefined, to: number | undefined) => {
+    if (from === undefined || to === undefined) {
+        return false;
+    }
+
+    const remap = {
+        [Position.START]: Position.LOWEST,
+        [Position.END]: Position.HIGHEST,
+    };
+
+    from = remap[from] ?? from;
+    to = remap[to] ?? to;
+
+    return to <= from + 1;
+};
 
 export const build: SolutionBuilder = (input) => {
     const heightsCharMatrix = Matrix.from(input);
@@ -58,10 +66,6 @@ export const build: SolutionBuilder = (input) => {
 
                 for (const move of getAdjecent(currPos)) {
                     if (
-                        move[0] >= 0 &&
-                        move[0] < heights.size[0] &&
-                        move[1] >= 0 &&
-                        move[1] < heights.size[1] &&
                         isValidMove(currVal, heights.at(move)) &&
                         visited[String(move)] !== true
                     ) {
