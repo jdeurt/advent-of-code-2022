@@ -1,9 +1,9 @@
 import { makeInput } from "../util/make-input.js";
-const PAIR_COUNT = 300;
+const PAIR_COUNT = 1000;
 const PACKET_ITEM_MAX_VALUE = 10;
-const PACKET_LEN_MIN = 50;
-const PACKET_LEN_MAX = 60;
-const SUBPACKET_LEN_MAX = 5;
+const PACKET_LEN_MIN = 70;
+const PACKET_LEN_MAX = 100;
+const SUBPACKET_LEN_MAX = 10;
 const SUBPACKET_RATIO = 0.3;
 const MAX_PACKET_DEPTH = 10;
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
