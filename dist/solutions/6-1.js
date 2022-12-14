@@ -27,7 +27,7 @@ function findMarkerIndex([...input], requiredUniqueCharCount) {
     return index;
 }
 
-export default function build(input) {
+export function build(input) {
     return function run() {
         return findMarkerIndex(input, 4);
     };
