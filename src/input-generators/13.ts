@@ -4,11 +4,11 @@ interface Packet extends Array<unknown> {
     readonly [n: number]: number | Packet;
 }
 
-const PAIR_COUNT = 1000;
+const PAIR_COUNT = 500;
 const PACKET_ITEM_MAX_VALUE = 10;
-const PACKET_LEN_MIN = 70;
+const PACKET_LEN_MIN = 80;
 const PACKET_LEN_MAX = 100;
-const SUBPACKET_LEN_MAX = 10;
+const SUBPACKET_LEN_MAX = 5;
 const SUBPACKET_RATIO = 0.3;
 const MAX_PACKET_DEPTH = 10;
 
