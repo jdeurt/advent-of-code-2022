@@ -1,6 +1,6 @@
 import type { In } from "../types/in.js";
 import type { Couple } from "../types/couple.js";
-import { SolutionBuilder } from "../types/solution.js";
+import type { SolutionBuilder } from "../types/solution.js";
 import { makeRemap } from "../util/make-remap.js";
 import { assert } from "../util/assert.js";
 
