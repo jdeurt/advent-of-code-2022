@@ -12,7 +12,7 @@ const INPUT_TYPE = process.argv[2]?.toLowerCase();
 const inputs = {};
 const solutions = {};
 // Load inputs
-for (const file of await readdir("./shared/inputs")) {
+for (const file of await readdir("./shared/inputs/actual")) {
     const [day] = parseInputFile(file);
     const input = await softFail(loadInput(day, INPUT_TYPE));
     if (!input) {

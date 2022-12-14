@@ -1,4 +1,4 @@
 node_modules/
-inputs/
+shared/inputs/actual/
 known.js
 known.ts

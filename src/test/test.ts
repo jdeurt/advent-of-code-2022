@@ -18,7 +18,7 @@ const inputs: Record<number, string> = {};
 const solutions: Record<`${number}-${number}`, SolutionRunner> = {};
 
 // Load inputs
-for (const file of await readdir("./shared/inputs")) {
+for (const file of await readdir("./shared/inputs/actual")) {
     const [day] = parseInputFile(file);
     const input = await softFail(loadInput(day, INPUT_TYPE));
 
